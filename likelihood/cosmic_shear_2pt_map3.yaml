@@ -33,5 +33,18 @@ map3_data_vector_file: null
 map3_cov_file: null
 map3_mask_file: null
 map3_nz_files: null
+map3_model_filename: null
+map3_rescaling_filename: null
+map3_metadata_file: null
+map3_z_values: null
+map3_cosmo_model: LCDM
+map3_nz_upsampling: 100
+map3_perbin: False
+map3_ia_alpha: 1.0
+map3_ia_z0: 0.62
+map3_ia_amplitude_prefix: roman_A1_
+map3_ia_global_amplitude: 0.0
+map3_use_pixwin: False
+map3_nside: null
 
 params: !defaults [params_source]
