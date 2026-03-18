@@ -25,10 +25,13 @@ filename_baryon_pca: "./projects/desy1xplanck/chains/pca.txt"
 print_datavector: False
 print_datavector_file: "./projects/roman_real/chains/theory.modelvector"
 
-# Joint xi + map3 covariance/data placeholders (simulation-based covariance).
-# These files are read by the Python likelihood, not by CosmoLike.
-joint_data_vector_file: null
-joint_cov_file: null
-joint_mask_file: null
+# Map3 inputs. The likelihood calls an external Python function,
+# defaulting to compute_map3(cosmology_parameters, data_file, covariance_file, nz_files).
+map3_module_path: null
+map3_function_name: compute_map3
+map3_data_vector_file: null
+map3_cov_file: null
+map3_mask_file: null
+map3_nz_files: null
 
 params: !defaults [params_source]
