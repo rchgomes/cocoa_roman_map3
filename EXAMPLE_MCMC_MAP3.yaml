@@ -17,7 +17,7 @@ likelihood:
     ggl_exclude: [[6,0],[7,0],[7,1]]
 
     # External mass-aperture theory module.
-    map3_module_path: ./external_modules/data/roman_real/python/my_map3_module.py
+    map3_module_path: ./external_modules/data/roman_real/python/mass_aperture_likelihood.py
     map3_function_name: compute_map3
 
     # Map3-only inputs. Cross-covariance with xi is ignored.
@@ -25,6 +25,15 @@ likelihood:
     map3_cov_file: ./external_modules/data/roman_real/data/my_map3_covariance.txt
     # Optional mask; set to null to use all map3 elements.
     map3_mask_file: null
+
+    # Standalone mass-aperture emulator inputs.
+    map3_model_filename: ./external_modules/data/roman_real/data/train_emulator/map3_model_wCDM-0
+    map3_rescaling_filename: ./external_modules/data/roman_real/data/train_emulator/rescaling_for_map3_network_wCDM.pkl
+    map3_metadata_file: ./external_modules/data/roman_real/data/my_map3_metadata.fits
+    map3_z_values: [0.035, 0.105, 0.175, 0.245, 0.315, 0.385, 0.455, 0.525, 0.595, 0.665, 0.735, 0.805, 0.875, 0.945, 1.015, 1.085, 1.155, 1.225, 1.295, 1.365, 1.435, 1.505, 1.575, 1.645, 1.715, 1.785, 1.855, 1.925]
+    map3_cosmo_model: wCDM
+    map3_perbin: True
+
     # Pass a string or list of strings understood by your compute_map3 function.
     map3_nz_files:
       - ./external_modules/data/roman_real/data/nz/map3_source_bin1.txt

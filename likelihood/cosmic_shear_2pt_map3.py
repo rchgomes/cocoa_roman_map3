@@ -37,6 +37,19 @@ class cosmic_shear_2pt_map3(_cosmolike_prototype_base):
         self.map3_mask_file = getattr(self, "map3_mask_file", None)
         self.map3_nz_files = getattr(self, "map3_nz_files", None)
         self.map3_function_name = getattr(self, "map3_function_name", "compute_map3")
+        self.map3_model_filename = getattr(self, "map3_model_filename", None)
+        self.map3_rescaling_filename = getattr(self, "map3_rescaling_filename", None)
+        self.map3_metadata_file = getattr(self, "map3_metadata_file", None)
+        self.map3_z_values = getattr(self, "map3_z_values", None)
+        self.map3_cosmo_model = getattr(self, "map3_cosmo_model", "LCDM")
+        self.map3_nz_upsampling = getattr(self, "map3_nz_upsampling", 100)
+        self.map3_perbin = getattr(self, "map3_perbin", False)
+        self.map3_ia_alpha = getattr(self, "map3_ia_alpha", 1.0)
+        self.map3_ia_z0 = getattr(self, "map3_ia_z0", 0.62)
+        self.map3_ia_amplitude_prefix = getattr(self, "map3_ia_amplitude_prefix", "roman_A1_")
+        self.map3_ia_global_amplitude = getattr(self, "map3_ia_global_amplitude", 0.0)
+        self.map3_use_pixwin = getattr(self, "map3_use_pixwin", False)
+        self.map3_nside = getattr(self, "map3_nside", None)
 
         missing = [
             name
@@ -118,6 +131,20 @@ class cosmic_shear_2pt_map3(_cosmolike_prototype_base):
             self.map3_data_vector_file,
             self.map3_cov_file,
             self.map3_nz_files,
+            provider=self.provider,
+            model_filename=self.map3_model_filename,
+            rescaling_filename=self.map3_rescaling_filename,
+            metadata_file=self.map3_metadata_file,
+            z_values=self.map3_z_values,
+            cosmo_model=self.map3_cosmo_model,
+            nz_upsampling=self.map3_nz_upsampling,
+            perbin=self.map3_perbin,
+            ia_alpha=self.map3_ia_alpha,
+            ia_z0=self.map3_ia_z0,
+            ia_amplitude_prefix=self.map3_ia_amplitude_prefix,
+            ia_global_amplitude=self.map3_ia_global_amplitude,
+            use_pixwin=self.map3_use_pixwin,
+            nside=self.map3_nside,
         )
         map3 = np.asarray(map3, dtype="float64").ravel()
         if map3.size != self.map3_data_vector.size:
