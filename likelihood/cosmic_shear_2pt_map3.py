@@ -68,11 +68,8 @@ class cosmic_shear_2pt_map3(_cosmolike_prototype_base):
                 ", ".join(missing),
             )
 
-        self.map3_data_vector = np.loadtxt(self.map3_data_vector_file, dtype="float64")
-        self.map3_cov = np.loadtxt(self.map3_cov_file, dtype="float64")
-
-        if self.map3_data_vector.ndim != 1:
-            self.map3_data_vector = np.ravel(self.map3_data_vector)
+        self.map3_data_vector = self._load_map3_data_vector(self.map3_data_vector_file)
+        self.map3_cov = self._load_map3_covariance(self.map3_cov_file)
 
         if self.map3_cov.ndim != 2 or self.map3_cov.shape[0] != self.map3_cov.shape[1]:
             raise LoggedError(self.log, "map3_cov_file must contain a square matrix.")
@@ -108,6 +105,53 @@ class cosmic_shear_2pt_map3(_cosmolike_prototype_base):
                 self.map3_function_name,
                 self.map3_module_path,
             )
+
+    @staticmethod
+    def _is_fits_path(filename):
+        return str(filename).lower().endswith((".fits", ".fit", ".fits.gz", ".fit.gz"))
+
+    def _import_fits(self):
+        try:
+            from astropy.io import fits
+        except ImportError as exc:
+            raise LoggedError(
+                self.log,
+                "Reading map3 FITS inputs requires astropy, but it could not be imported: %s.",
+                exc,
+            )
+        return fits
+
+    def _load_map3_data_vector(self, filename):
+        if self._is_fits_path(filename):
+            fits = self._import_fits()
+            with fits.open(filename) as hdul:
+                try:
+                    data = np.asarray(hdul["map3"].data["VALUE"], dtype="float64")
+                except (KeyError, ValueError) as exc:
+                    raise LoggedError(
+                        self.log,
+                        "Could not read VALUE column from 'map3' extension in '%s': %s.",
+                        filename,
+                        exc,
+                    )
+            return np.ravel(data)
+        return np.ravel(np.loadtxt(filename, dtype="float64"))
+
+    def _load_map3_covariance(self, filename):
+        if self._is_fits_path(filename):
+            fits = self._import_fits()
+            with fits.open(filename) as hdul:
+                try:
+                    cov = np.asarray(hdul["COVMAT"].data, dtype="float64")
+                except KeyError as exc:
+                    raise LoggedError(
+                        self.log,
+                        "Could not read 'COVMAT' extension in '%s': %s.",
+                        filename,
+                        exc,
+                    )
+            return cov
+        return np.loadtxt(filename, dtype="float64")
 
     def _load_map3_module(self):
         module_path = os.path.abspath(self.map3_module_path)
