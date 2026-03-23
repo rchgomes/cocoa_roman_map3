@@ -21,8 +21,11 @@ likelihood:
     map3_function_name: compute_map3
 
     # Map3-only inputs. Cross-covariance with xi is ignored.
-    map3_data_vector_file: ./external_modules/data/roman_real/data/my_map3_data_vector.txt
-    map3_cov_file: ./external_modules/data/roman_real/data/my_map3_covariance.txt
+    # If your MAP3 data vector and covariance live in one FITS file, point both
+    # inputs to the same file. The likelihood reads VALUE from the 'map3'
+    # extension and the covariance matrix from 'COVMAT'.
+    map3_data_vector_file: ./external_modules/data/roman_real/data/my_map3_data.fits
+    map3_cov_file: ./external_modules/data/roman_real/data/my_map3_data.fits
     # Optional mask; set to null to use all map3 elements.
     map3_mask_file: null
 
