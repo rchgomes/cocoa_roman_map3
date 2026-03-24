@@ -14,12 +14,20 @@ class cosmic_shear_2pt_map3(_cosmolike_prototype_base):
     """Cosmic shear likelihood combining xi with an external mass-aperture theory.
 
     The xi contribution is evaluated with the standard CosmoLike real-space cosmic
-    shear pipeline. The mass-aperture (Map3) contribution is evaluated by calling
-    a user-provided Python module and compared against a separate map3-only data
-    vector and covariance. Cross-covariance between xi and map3 is ignored.
+    shear pipeline. The mass-aperture (Map3) contribution is evaluated through the
+    map3 emulator with a user-provided data vector and covariance.
+    Cross-covariance between xi and map3 is ignored.
     """
 
-    _required_cosmo_params = ("As", "ns", "H0", "omegab", "omegam", "mnu", "w")
+    #_required_cosmo_params = ("As", "ns", "H0", "omegab", "omegam", "mnu", "w")
+    _required_cosmo_params = ("As", "ns", "H0", "omegab", "omegam", "mnu", "w", "sigma8")
+
+    def get_requirements(self):
+        # Inherit requirements from the parent xi pipeline, then add sigma8
+        # which is needed by the Map3 emulator to compute s8 = sigma8*sqrt(Om/0.3).
+        reqs = super(cosmic_shear_2pt_map3, self).get_requirements()
+        reqs["sigma8"] = None
+        return reqs
 
     def initialize(self):
         if self.use_emulator:

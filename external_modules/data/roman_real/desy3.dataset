@@ -1,0 +1,11 @@
+data_file = datavector_desy3.modelvector
+cov_file = covariance_desy3
+mask_file = example1.mask
+nz_lens_file = source_distribution_desy3.nz
+nz_source_file = source_distribution_desy3.nz
+ggl_overlap_cut = 1.0
+lens_ntomo = 4
+source_ntomo = 4
+n_theta = 20
+theta_min_arcmin = 2.5
+theta_max_arcmin = 250.
