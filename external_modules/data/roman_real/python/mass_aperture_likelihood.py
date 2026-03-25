@@ -84,12 +84,7 @@ class _Map3Network:
         self._model.eval()
 
     def predictions_np(self, params_arr: np.ndarray) -> np.ndarray:
-        """
-        Parameters
-        ----------
-        params_arr : shape (1, n_inputs) — RAW (un-normalised) parameters.
-            The network normalises them internally.
-        """
+
         if self._model is None:
             raise RuntimeError("Call restore() before predictions_np().")
         x = torch.tensor(params_arr.astype(np.float32), device=self._device)
@@ -314,7 +309,7 @@ def setup_map3_module(
     rescaling_filename: str,
     metadata_file:      str,
     z_values:           Sequence[float],
-    cosmo_model:        str = "LCDM",
+    cosmo_model:        str = "wCDM",
     nz_upsampling:      int = 100,
     perbin:             bool = False,
     use_pixwin:         bool = False,
@@ -396,10 +391,7 @@ def _build_raw_parameter_array(
     model_cosmo: str,
     provider: Any,
 ) -> np.ndarray:
-    """
-    Build the raw (un-normalised) parameter vector fed to the network.
-    The network handles internal z-score normalisation.
-    """
+
     sigma8 = _get_sigma8(cosmology_parameters, provider)
     s8     = sigma8 * np.sqrt(cosmology_parameters["omegam"] / 0.3)
 
@@ -462,7 +454,6 @@ def _set_linear_theory(
     z_for_pk  = np.unique(np.concatenate(([0.0], zarray)))
     pk_interp = provider.get_Pk_interpolator(("delta_tot", "delta_tot"), nonlinear=False)
 
-    #k_h = np.logspace(-4.5, 1.5, 400)
     k_h = np.logspace(-4.5, np.log10(7), 400)
     p_k = pk_interp.P(z_for_pk, k_h)
     if p_k.ndim == 1:
@@ -519,9 +510,6 @@ def compute_map3(
     cosmology_parameters
         Mapping with ``H0``, ``omegam``, ``omegab``, ``ns``, ``w`` and
         either ``sigma8`` or a Cobaya provider that can supply it.
-    data_vector_file, covariance_file
-        Unused directly here, kept for compatibility with
-        ``cosmic_shear_2pt_map3``.
     nz_files
         Sequence of plain-text files with at least two columns: z and n(z).
     kwargs

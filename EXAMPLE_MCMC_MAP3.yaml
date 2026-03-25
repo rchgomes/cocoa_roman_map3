@@ -22,7 +22,7 @@ likelihood:
     map3_function_name: compute_map3
 
     # Map3-only inputs. Cross-covariance with xi is ignored.
-    # If your MAP3 data vector and covariance live in one FITS file, point both
+    # If the MAP3 data vector and covariance live in one FITS file, point both
     # inputs to the same file. The likelihood reads VALUE from the 'map3'
     # extension and the covariance matrix from 'COVMAT'.
     map3_data_vector_file: ./external_modules/data/roman_real/data/my_map3_data.fits
@@ -30,15 +30,13 @@ likelihood:
     # Optional mask; set to null to use all map3 elements.
     map3_mask_file: null
 
-    # Standalone mass-aperture emulator inputs.
+    # Mass-aperture emulator inputs.
     map3_model_filename: ./external_modules/data/roman_real/data/train_emulator/map3_model_wCDM-pytorch.pt
     map3_rescaling_filename: ./external_modules/data/roman_real/data/train_emulator/rescaling_for_map3_network_wCDM-pytorch.pkl
     map3_metadata_file: ./external_modules/data/roman_real/data/my_map3_metadata.fits
     map3_z_values: [0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.07, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5]
     map3_cosmo_model: wCDM
     map3_perbin: False
-
-    # Pass a string or list of strings understood by your compute_map3 function.
     map3_nz_files:
       - ./external_modules/data/roman_real/data/nz/map3_des_nzbins.fits
 
