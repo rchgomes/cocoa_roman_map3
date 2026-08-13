@@ -1,11 +1,3 @@
-"""Standalone mass-aperture (Map3) theory module for Cobaya/Cocoa analyses.
-
-This module mirrors the existing CosmoSIS-based fastnc emulator workflow but is
-structured as a plain Python callable so it can be used by
-``likelihood/cosmic_shear_2pt_map3.py`` without any dependence on a CosmoSIS
-DataBlock.
-"""
-
 from __future__ import annotations
 
 import os
@@ -397,8 +389,7 @@ def compute_map3(
     nz_files: Sequence[str],
     **kwargs: Any,
 ) -> np.ndarray:
-    """Compute a Map3 theory vector using the fastnc emulator workflow.
-
+    """
     Parameters
     ----------
     cosmology_parameters
